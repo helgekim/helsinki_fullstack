@@ -10,34 +10,25 @@ function Header({CourseName}) {
   )
 }
 
-function Content({parts, exercises})
+function Content({parts})
 {
-
-  let num = -1;
-
-  /*
-  My creativity is the worst generator of bugs so
-  we have to start with -1,
-  */
-
-  let components = parts.map(part => {
-    num++;
-
+  let partsdata = parts.map(part => {
     /*
     console.log("Array: ", exercises)
     console.log("Array position", num)
     console.log("Array value", exercises[num])
     */
-
     return(
-      <Part part={part} exercises={exercises[num]}/>
+      <Part part={part.name} exercises={part.exercises}/>
     )
   })
 
-  console.log(components)
+  let total = parts.map(element => element.exercises).reduce((accumulator, currentValue) => accumulator + currentValue)
+  console.log(partsdata)
   return (
     <div>
-      {components}
+      {partsdata}
+      <Total total={total}/>
     </div>
   )
 }
@@ -50,28 +41,34 @@ function Part({part, exercises}) {
   )
 }
 
-function Total({ex1, ex2, ex3}) {
-  return (
+function Total({total}) {
+  return(
     <div>
-      <p> Number of exercises: {ex1 + ex2 + ex3} </p>
+      <p> Total: {total} </p>
     </div>
   )
 }
 
+
 const App = () => {
   const course = 'Half Stack application development'
-  const part1 = 'Fundamentals and React'
-  const exercises1 = 10
-  const part2 = 'Using props to pass data'
-  const exercises2 = 7
-  const part3 = 'State of a component'
-  const exercises3 = 14
+    const part1 = {
+      name: 'Fundamentals of React',
+      exercises: 10
+    }
+    const part2 = {
+      name: 'Using props to pass data',
+      exercises: 7
+    }
+    const part3 = {
+      name: 'State of a component',
+      exercises: 14
+    }
 
   return (
     <div>
       <Header CourseName={course}/>
-      <Content parts={[part1, part2, part3]} exercises={[exercises1, exercises2, exercises3]} />
-      <Total ex1 = {exercises1} ex2 = {exercises2} ex3 = {exercises3} />
+      <Content parts={[part1, part2, part3]}/>
     </div>
   )
 }
