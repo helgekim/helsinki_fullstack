@@ -11,6 +11,10 @@ function App() {
   const increaseNeutralOpinions = () => setNeutral(neutral + 1);
   const increaseBadOpinions = () => setBad(bad + 1);
 
+  const total = good + neutral + bad;
+  const average = ((good - bad) / total) * 100
+  const positive = ((good + neutral) / total) * 100
+
   return (
     <div>
       <div>
@@ -32,6 +36,11 @@ function App() {
           <p> Good: {good} </p>
           <p> Neutral: {neutral} </p>
           <p> Bad: {bad} </p>
+        </div>
+        <div>
+          <p>All: {total} </p>
+          <p>Average: {total == 0 ? 0 : average}</p>
+          <p>Positive: {total == 0 ? 0 : positive}% </p>
         </div>
       </div>
     </div>
