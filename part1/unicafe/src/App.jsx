@@ -1,19 +1,50 @@
 import { useState } from 'react'
 
 
-function App() {
 
-  const [good, setGood] = useState(0);
-  const [neutral, setNeutral] = useState(0);
-  const [bad, setBad] = useState(0);
 
-  const increaseGoodOpinions = () => setGood(good + 1);
-  const increaseNeutralOpinions = () => setNeutral(neutral + 1);
-  const increaseBadOpinions = () => setBad(bad + 1);
+function Statistics({reviews}) {
+
+  const {good, neutral, bad} = reviews;
 
   const total = good + neutral + bad;
   const average = ((good - bad) / total) * 100
   const positive = ((good + neutral) / total) * 100
+  /*return(
+    <div>
+      <p> In development </p>
+    </div>
+  )*/
+
+  return(
+    <div>
+      <div>
+        <h2> What do people think of us? </h2>
+      </div>
+      <div>
+        <p> Good: {good} </p>
+        <p> Neutral: {neutral} </p>
+        <p> Bad: {bad} </p>
+      </div>
+      <div>
+        <p>All: {total} </p>
+        <p>Average: {total == 0 ? 0 : average}</p>
+        <p>Positive: {total == 0 ? 0 : positive}% </p>
+      </div>
+    </div>
+  )
+}
+
+function App() {
+
+  const [points, setPoints] = useState(
+    {good: 0, neutral: 0, bad: 0}
+  )
+
+
+  const increaseGoodOpinions = () => setPoints({...points, good: points.good + 1});
+  const increaseNeutralOpinions = () => setPoints({...points, neutral: points.neutral + 1});
+  const increaseBadOpinions = () => setPoints({...points, bad: points.bad + 1});
 
   return (
     <div>
@@ -28,21 +59,7 @@ function App() {
         <button onClick={increaseNeutralOpinions}>neutral</button>
         <button onClick={increaseBadOpinions}>bad</button>
       </div>
-      <div>
-        <div>
-          <h2> What do people think of us? </h2>
-        </div>
-        <div>
-          <p> Good: {good} </p>
-          <p> Neutral: {neutral} </p>
-          <p> Bad: {bad} </p>
-        </div>
-        <div>
-          <p>All: {total} </p>
-          <p>Average: {total == 0 ? 0 : average}</p>
-          <p>Positive: {total == 0 ? 0 : positive}% </p>
-        </div>
-      </div>
+      <Statistics reviews = {points}/>
     </div>
   )
 
