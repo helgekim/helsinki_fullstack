@@ -15,6 +15,7 @@ function Statistics({reviews}) {
       <p> In development </p>
     </div>
   )*/
+
     if (total == 0) {
       return (
         <div>
@@ -37,8 +38,8 @@ function Statistics({reviews}) {
       </div>
       <div>
         <p>All: {total} </p>
-        <p>Average: {total == 0 ? 0 : average}</p>
-        <p>Positive: {total == 0 ? 0 : positive}% </p>
+        <p>Average: {average}</p>
+        <p>Positive: {positive}% </p>
       </div>
     </div>
   )
