@@ -15,6 +15,15 @@ function Statistics({reviews}) {
       <p> In development </p>
     </div>
   )*/
+    if (total == 0) {
+      return (
+        <div>
+          <p> No feedback given </p>
+        </div>
+      )
+    }
+
+
 
   return(
     <div>
