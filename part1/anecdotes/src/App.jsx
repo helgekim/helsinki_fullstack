@@ -39,7 +39,6 @@ const App = ({anecdotes}) => {
       newVotes[selected] += 1;
       let newVotesTopSelection = Object.entries(newVotes).sort((a, b) => a[1] - b[1])
       setMostVoted(newVotesTopSelection[newVotesTopSelection.length - 1][0])
-      console.log(newVotesTopSelection)
       return setVotes(newVotes)
   }
 
