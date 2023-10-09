@@ -1,34 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react'
+import ReactDOM from 'react-dom'
 
-function App() {
-  const [count, setCount] = useState(0)
+/*
+
+Expanda la siguiente aplicación agregando un botón en el que se puede hacer clic
+para mostrar una anécdota aleatoria del campo de la ingeniería de software:
+
+*/
+
+
+function Button ({text, onclick}) {
+  return(
+    <div>
+      <button onClick={onclick}>{text}</button>
+    </div>
+  )
+}
+
+
+const App = ({anecdotes}) => {
+  const [selected, setSelected] = useState(0)
+
+
+  function nextJoke() {
+    return (selected + 1) >= anecdotes.length ? setSelected(0) : setSelected(selected + 1)
+  }
+  function randomJoke() {
+    function newNumber() {
+      return Math.floor(Math.random() * anecdotes.length);
+    }
+    return setSelected(newNumber());
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+     <p>  {anecdotes[selected]} </p>
+     <Button text={"next"} onclick = {nextJoke}/>
+     <Button text={"random"} onclick = {randomJoke}/>
+    </div>
   )
 }
 
