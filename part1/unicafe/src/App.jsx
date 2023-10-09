@@ -8,7 +8,7 @@ function StatisticsLine({text, value}) {
   )
 }
 
-function RenderStatisticsLines({entries}) {
+function StatisticsLines({entries}) {
   return entries.map(element => <StatisticsLine text={element[0]} value={element[1]}/>)
 }
 
@@ -39,17 +39,23 @@ function Statistics({reviews}) {
     positive: positive
   })
 
-  console.log(statistics)
-
-
   return(
     <div>
       <div>
         <h2> What do people think of us? </h2>
       </div>
-      <RenderStatisticsLines entries={statistics}/>
+      <StatisticsLines entries={statistics}/>
     </div>
   )
+}
+
+
+function Button({text, onclick}) {
+  return <button onClick={onclick}>{text}</button>
+}
+
+function Buttons({entries}) {
+  return entries.map(element => <Button text={element[0]} onclick={element[1]}/>)
 }
 
 function App() {
@@ -58,10 +64,16 @@ function App() {
     {good: 0, neutral: 0, bad: 0}
   )
 
-
   const increaseGoodOpinions = () => setPoints({...points, good: points.good + 1});
   const increaseNeutralOpinions = () => setPoints({...points, neutral: points.neutral + 1});
   const increaseBadOpinions = () => setPoints({...points, bad: points.bad + 1});
+
+  const optionsFunctions = Object.entries({
+    good: increaseGoodOpinions,
+    neutral: increaseNeutralOpinions,
+    bad: increaseBadOpinions,
+    reset: () => setPoints({good: 0, neutral: 0, bad: 0})
+  })
 
   return (
     <div>
@@ -72,9 +84,7 @@ function App() {
           <h2> Give us a review! </h2>
       </div>
       <div>
-        <button onClick={increaseGoodOpinions}>good</button>
-        <button onClick={increaseNeutralOpinions}>neutral</button>
-        <button onClick={increaseBadOpinions}>bad</button>
+      <Buttons entries = {optionsFunctions}/>
       </div>
       <Statistics reviews = {points}/>
     </div>
