@@ -14,8 +14,6 @@ npm create vite@latest $name --  --template $template
 cd $name
 npm install
 
-echo "Now we are going to launch it"
-npm run dev
 
 
 
