@@ -1,15 +1,35 @@
 import { useState } from 'react'
 
 function StatisticsLine({text, value}) {
+
+  if (text == "positive" ) {
+    return(
+      <tr>
+        <td> {text} </td>
+        <td> {value}%</td>
+      </tr>
+    )
+  }
+
   return(
-    <div>
-      <p> {text}: {value} </p>
-    </div>
+    <tr>
+      <td> {text} </td>
+      <td> {value} </td>
+    </tr>
   )
 }
 
 function StatisticsLines({entries}) {
-  return entries.map(element => <StatisticsLine text={element[0]} value={element[1]}/>)
+
+  let cells = entries.map(element => <StatisticsLine text={element[0]} value={element[1]}/>);
+
+  return(
+    <table>
+      <tbody>
+      {cells}
+      </tbody>
+    </table>
+  )
 }
 
 function Statistics({reviews}) {
