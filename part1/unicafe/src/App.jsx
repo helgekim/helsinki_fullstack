@@ -1,29 +1,45 @@
 import { useState } from 'react'
 
+function StatisticsLine({text, value}) {
+  return(
+    <div>
+      <p> {text}: {value} </p>
+    </div>
+  )
+}
 
-
+function RenderStatisticsLines({entries}) {
+  return entries.map(element => <StatisticsLine text={element[0]} value={element[1]}/>)
+}
 
 function Statistics({reviews}) {
 
   const {good, neutral, bad} = reviews;
-
   const total = good + neutral + bad;
+
+  /* order matters. prevent the rest of the code from being rendered
+  */
+      if (total == 0) {
+        return (
+          <div>
+            <p> No feedback given </p>
+          </div>
+        )
+      }
+
   const average = ((good - bad) / total) * 100
   const positive = ((good + neutral) / total) * 100
-  /*return(
-    <div>
-      <p> In development </p>
-    </div>
-  )*/
 
-    if (total == 0) {
-      return (
-        <div>
-          <p> No feedback given </p>
-        </div>
-      )
-    }
+  // Object.entries create an array with each property and their value as subarrays.
 
+  const statistics = Object.entries({
+    ...reviews,
+    total: total,
+    average: average,
+    positive: positive
+  })
+
+  console.log(statistics)
 
 
   return(
@@ -31,16 +47,7 @@ function Statistics({reviews}) {
       <div>
         <h2> What do people think of us? </h2>
       </div>
-      <div>
-        <p> Good: {good} </p>
-        <p> Neutral: {neutral} </p>
-        <p> Bad: {bad} </p>
-      </div>
-      <div>
-        <p>All: {total} </p>
-        <p>Average: {average}</p>
-        <p>Positive: {positive}% </p>
-      </div>
+      <RenderStatisticsLines entries={statistics}/>
     </div>
   )
 }
