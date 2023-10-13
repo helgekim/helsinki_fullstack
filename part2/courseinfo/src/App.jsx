@@ -21,7 +21,7 @@ function Part({part, exercises}) {
 function Total({total}) {
   return(
     <div>
-      <p> Total: {total} </p>
+      <p> Total of {total} exercises </p>
     </div>
   )
 }
