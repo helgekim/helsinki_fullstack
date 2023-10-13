@@ -10,24 +10,6 @@ function Header({courseName}) {
   )
 }
 
-function Course({info})
-{
-  let partsdata = info.parts.map(part => {
-    return(
-      <Part part={part.name} exercises={part.exercises}/>
-    )
-  })
-
-  let total = info.parts.map(element => element.exercises).reduce((accumulator, currentValue) => accumulator + currentValue)
-  return (
-    <div>
-      <Header courseName = {info.name}/>
-      {partsdata}
-      <Total total={total}/>
-    </div>
-  )
-}
-
 function Part({part, exercises}) {
   return(
     <div>
@@ -45,31 +27,50 @@ function Total({total}) {
 }
 
 
-const App = () => {
 
+function Course({course})
+{
+  let partsdata = course.parts.map(part => {
+    return(
+      <Part key={part.id} part={part.name} exercises={part.exercises}/>
+    )
+  })
+
+  let total = course.parts.map(element => element.exercises).reduce((accumulator, currentValue) => accumulator + currentValue)
+
+  return (
+    <div>
+      <Header courseName = {course.name}/>
+      {partsdata}
+      <Total total={total}/>
+    </div>
+  )
+}
+
+const App = () => {
   const course = {
+    id: 1,
     name: 'Half Stack application development',
     parts: [
       {
         name: 'Fundamentals of React',
-        exercises: 10
+        exercises: 10,
+        id: 1,
       },
       {
         name: 'Using props to pass data',
-        exercises: 7
+        exercises: 7,
+        id: 2,
       },
       {
         name: 'State of a component',
-        exercises: 14
+        exercises: 14,
+        id: 3,
       }
-    ]
+    ],
   }
 
-  return (
-    <div>
-      <Course info={course}/>
-    </div>
-  )
+  return <Course course={course} />
 }
 
 export default App
