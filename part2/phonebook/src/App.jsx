@@ -1,34 +1,107 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+function Header({header}) {
+  return (
+    <div>
+      <h1> {header} </h1>
+    </div>
+  )
+}
+
+function Form({handler, newData}) {
+  const {fields, fieldsNames, name, onChange} = handler
+  /* Very slow and interruptive.
+  const inputs = fields.map((element, i) => {
+  return(
+  <div key={Math.random()} >
+    <label for={fieldsNames[i]}>{fieldsNames[i]}</label>
+    <input value={element} onChange={onChange[i]}/>
+  </div>
+  )
+  })
+  */
+
+
+
+  /*
+
+    <form onSubmit={newData}>
+      <label for={fieldsNames[0]}>{fieldsNames[0]}</label>
+      <input value={fields[0]} onChange={onChange[0]}/>
+        <label for={fieldsNames[1]}>{fieldsNames[1]}</label>
+        <input value={fields[1]} onChange={onChange[1]}/>
+      <button type="submit">Submit</button>
+    </form>
+  */
+  return(
+    <div>
+        <form onSubmit={newData}>
+          <label for={fieldsNames[0]}>{fieldsNames[0]}</label>
+          <input value={fields[0]} onChange={onChange[0]}/>
+            <label for={fieldsNames[1]}>{fieldsNames[1]}</label>
+            <input value={fields[1]} onChange={onChange[1]}/>
+          <button type="submit">Submit</button>
+        </form>
+    </div>
+  )
+}
+
+function Phonebook({book}) {
+
+  const contactsToBeShown = book.map(contact => <p key={contact.number}>{contact.name}: {contact.number}</p>)
+  console.log(contactsToBeShown)
+  return (
+    <div>
+      <Header header={"Contacts"}/>
+      {contactsToBeShown}
+    </div>
+  )
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [contacts, setContacts] = useState(
+    [{name: "Sung Deoksung",
+    number: "12-01-1989",
+    id: 0}]
+  );
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+  const [name, setName] = useState("");
+  const [number, setNumber] = useState("");
+
+  function newContact (event) {
+    event.preventDefault()
+    console.log("I am here");
+
+    const Contact = {
+      name: name,
+      number: number,
+      id: Math.random()
+    }
+
+    setContacts(contacts.concat(Contact));
+    setName(""); setNumber("");
+  }
+
+  function nameOnChange(event) {
+    setName(event.target.value);
+  }
+  function numberOnChange(event) {
+    setNumber(event.target.value)
+  }
+
+  const newContactForm = {
+      name: "Add new contact",
+      fieldsNames: ["name", "number"],
+      fields: [name, number],
+      onChange: [nameOnChange, numberOnChange]
+  }
+
+  return(
+    <div>
+    <Header header={"Phonebook"}/>
+    <Phonebook book={contacts}/>
+    <Form handler={newContactForm} newData={newContact}/>
+    </div>
   )
 }
 
