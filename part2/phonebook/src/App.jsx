@@ -35,6 +35,10 @@ function Form({handler, newData}) {
   */
   return(
     <div>
+    <div>
+      <Header header={name}/>
+    </div>
+    <div>
         <form onSubmit={newData}>
           <label for={fieldsNames[0]}>{fieldsNames[0]}</label>
           <input value={fields[0]} onChange={onChange[0]}/>
@@ -42,6 +46,7 @@ function Form({handler, newData}) {
             <input value={fields[1]} onChange={onChange[1]}/>
           <button type="submit">Submit</button>
         </form>
+    </div>
     </div>
   )
 }
