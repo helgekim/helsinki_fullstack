@@ -54,7 +54,6 @@ function Form({handler, newData}) {
 function Phonebook({book}) {
 
   const contactsToBeShown = book.map(contact => <p key={contact.number}>{contact.name}: {contact.number}</p>)
-  console.log(contactsToBeShown)
   return (
     <div>
       <Header header={"Contacts"}/>
@@ -76,6 +75,13 @@ function App() {
   function newContact (event) {
     event.preventDefault()
     console.log("I am here");
+
+    const aSimilarContact = (contact) => contact.name == name 
+
+    if (contacts.some(aSimilarContact)) {
+      alert(`${name} is already added to phonebook`)
+      return undefined;
+    }
 
     const Contact = {
       name: name,
