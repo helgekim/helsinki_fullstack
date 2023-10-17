@@ -10,6 +10,7 @@ function Header({header}) {
 
 function Form({handler, newData}) {
   const {fields, fieldsNames, name, onChange} = handler
+
   /* Very slow and interruptive.
   const inputs = fields.map((element, i) => {
   return(
@@ -33,6 +34,20 @@ function Form({handler, newData}) {
       <button type="submit">Submit</button>
     </form>
   */
+
+  if (fields.length == 1) {
+    return(
+      <div>
+        <div>
+        <form onSubmit={newData}>
+          <label for={fieldsNames[0]}>{fieldsNames[0]}</label>
+          <input value={fields[0]} onChange={onChange[0]}/>
+          </form>
+        </div>
+      </div>
+    )
+  }
+
   return(
     <div>
     <div>
@@ -66,7 +81,10 @@ function App() {
   const [contacts, setContacts] = useState(
     [{name: "Sung Deoksung",
     number: "12-01-1989",
-    id: 0}]
+    id: 0},
+    {name: "Choi Taek",
+    number: "1-02-1995",
+    id: 1}]
   );
 
   const [name, setName] = useState("");
@@ -74,9 +92,8 @@ function App() {
 
   function newContact (event) {
     event.preventDefault()
-    console.log("I am here");
 
-    const aSimilarContact = (contact) => contact.name == name 
+    const aSimilarContact = (contact) => contact.name == name
 
     if (contacts.some(aSimilarContact)) {
       alert(`${name} is already added to phonebook`)
@@ -92,7 +109,6 @@ function App() {
     setContacts(contacts.concat(Contact));
     setName(""); setNumber("");
   }
-
   function nameOnChange(event) {
     setName(event.target.value);
   }
@@ -107,10 +123,31 @@ function App() {
       onChange: [nameOnChange, numberOnChange]
   }
 
+
+
+  const [filter, setFilterForm] = useState("")
+  const [filtered, setFiltered] = useState(contacts)
+
+
+    function filterOnChange(event) {
+        setFilterForm(event.target.value);
+        setFiltered(contacts.filter(contact => contact.name.includes(filter)))
+    }
+
+
+
+  const filterForm = {
+    name: "Find your Contact",
+    fieldsNames: ["filter shown with"],
+    fields: [filter],
+    onChange: [filterOnChange]
+  }
+
   return(
     <div>
     <Header header={"Phonebook"}/>
-    <Phonebook book={contacts}/>
+    <Form handler={filterForm}/>
+    <Phonebook book={filtered.length > 0 ? filtered : contacts}/>
     <Form handler={newContactForm} newData={newContact}/>
     </div>
   )
