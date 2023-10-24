@@ -27,11 +27,14 @@ function App() {
       number: number,
     }
 
-    setContacts(contacts.concat(contact));
-    setName(""); setNumber("");
 
-    axios.post("http://localhost:3001/persons", contact);
-  
+    axios.post("http://localhost:3001/persons", contact)
+         .then(resource =>
+         {
+               setContacts(contacts.concat(contact));
+               setName(""); setNumber("");
+         })
+
 
   }
   function nameOnChange(event) {
