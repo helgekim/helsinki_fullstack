@@ -1,90 +1,12 @@
-import { useState } from 'react'
-
-function Header({header}) {
-  return (
-    <div>
-      <h1> {header} </h1>
-    </div>
-  )
-}
-
-function Form({handler, newData}) {
-  const {fields, fieldsNames, name, onChange} = handler
-
-  /* Very slow and interruptive.
-  const inputs = fields.map((element, i) => {
-  return(
-  <div key={Math.random()} >
-    <label for={fieldsNames[i]}>{fieldsNames[i]}</label>
-    <input value={element} onChange={onChange[i]}/>
-  </div>
-  )
-  })
-  */
-
-
-
-  /*
-
-    <form onSubmit={newData}>
-      <label for={fieldsNames[0]}>{fieldsNames[0]}</label>
-      <input value={fields[0]} onChange={onChange[0]}/>
-        <label for={fieldsNames[1]}>{fieldsNames[1]}</label>
-        <input value={fields[1]} onChange={onChange[1]}/>
-      <button type="submit">Submit</button>
-    </form>
-  */
-
-  if (fields.length == 1) {
-    return(
-      <div>
-        <div>
-        <form onSubmit={newData}>
-          <label for={fieldsNames[0]}>{fieldsNames[0]}</label>
-          <input value={fields[0]} onChange={onChange[0]}/>
-          </form>
-        </div>
-      </div>
-    )
-  }
-
-  return(
-    <div>
-    <div>
-      <Header header={name}/>
-    </div>
-    <div>
-        <form onSubmit={newData}>
-          <label for={fieldsNames[0]}>{fieldsNames[0]}</label>
-          <input value={fields[0]} onChange={onChange[0]}/>
-            <label for={fieldsNames[1]}>{fieldsNames[1]}</label>
-            <input value={fields[1]} onChange={onChange[1]}/>
-          <button type="submit">Submit</button>
-        </form>
-    </div>
-    </div>
-  )
-}
-
-function Phonebook({book}) {
-
-  const contactsToBeShown = book.map(contact => <p key={contact.number}>{contact.name}: {contact.number}</p>)
-  return (
-    <div>
-      <Header header={"Contacts"}/>
-      {contactsToBeShown}
-    </div>
-  )
-}
+import { useState, useEffect } from 'react'
+import axios from 'axios';
+import Form from './components/form.jsx'
+import Header from "./components/header.jsx"
+import Phonebook from './components/phonebook.jsx'
 
 function App() {
   const [contacts, setContacts] = useState(
-    [{name: "Sung Deoksung",
-    number: "12-01-1989",
-    id: 0},
-    {name: "Choi Taek",
-    number: "1-02-1995",
-    id: 1}]
+    []
   );
 
   const [name, setName] = useState("");
@@ -116,14 +38,19 @@ function App() {
     setNumber(event.target.value)
   }
 
+  useEffect(() => {
+    axios.get("http://localhost:3001/persons")
+         .then(
+           response => setContacts(response.data)
+         )
+  }, [])
+
   const newContactForm = {
       name: "Add new contact",
       fieldsNames: ["name", "number"],
       fields: [name, number],
       onChange: [nameOnChange, numberOnChange]
   }
-
-
 
   const [filter, setFilterForm] = useState("")
   const [filtered, setFiltered] = useState(contacts)
