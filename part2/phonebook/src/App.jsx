@@ -22,14 +22,17 @@ function App() {
       return undefined;
     }
 
-    const Contact = {
+    const contact = {
       name: name,
       number: number,
-      id: Math.random()
     }
 
-    setContacts(contacts.concat(Contact));
+    setContacts(contacts.concat(contact));
     setName(""); setNumber("");
+
+    axios.post("http://localhost:3001/persons", contact);
+  
+
   }
   function nameOnChange(event) {
     setName(event.target.value);
