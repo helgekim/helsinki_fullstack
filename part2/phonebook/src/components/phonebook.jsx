@@ -3,7 +3,22 @@ import Header from "./header.jsx"
 
 function Phonebook({book}) {
 
-  const contactsToBeShown = book.map(contact => <p key={contact.number}>{contact.name}: {contact.number}</p>)
+  if (book.length == 0) {
+    return(
+      <div>
+        <Header header={"Contacts"}/>
+        <p> No contact to be shown </p>
+      </div>
+    )
+  }
+
+  const contactsToBeShown = book.map(contact => <div key={contact.id}>
+    <p>{contact.name}: {contact.number} <button> delete </button>
+</p>
+  </div>)
+
+
+
   return (
     <div>
       <Header header={"Contacts"}/>

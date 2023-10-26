@@ -10,11 +10,22 @@ function getAll() {
 
 }
 
+function post(contact) {
+  const request = axios.post(url, contact)
+  return request.then(response => response.data);
+
+}
+
 function update(id, contact) {
   const request = axios.put(`${url}/${id}`, contact)
   return request.then(response => response.data)
 }
 
+function remove(id, contact) {
+  const request = axios.delete(`${url}/${id}`)
+  return request.then(response => response.data)
+}
+
 export default {
-  getAll, update
+  getAll, update, remove
 };

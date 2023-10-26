@@ -10,12 +10,47 @@ function App() {
     []
   );
 
+  const [message, setMessage] = useState({})
+
+  const Notification = ({ message }) => {
+
+  if (message === null) {
+    return null
+  }
+
+  if (message.type = "success") {
+    return(
+      <div className = "success">
+        {message.content}
+      </div>
+    )
+  }
+
+  if (message.type = "error")
+  {
+    return (
+    <div className='error'>
+      {message.content}
+    </div>
+  )
+}
+
+}
+
+
   useEffect(() => {
-    communications.getAll().then(response => setContacts(response))
+    communications.getAll().then(response => {
+      setContacts(response)
+    }).catch(exception => {
+      setMessage({
+        type: "error",
+        content: "Can't get data"})
+    })
     }, [])
 
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
+
 
   function newContact (event) {
     event.preventDefault()
@@ -29,30 +64,40 @@ function App() {
     }
 
     if (contacts.some(aSimilarContact)) {
-      alert(`${name} is already added to phonebook`)
       if (confirm("Would you like to replace this contact?")) {
 
         let similarContact = contacts.find(aSimilarContact);
         return communications.update(similarContact.id, contact).then(
           response => setContacts(contacts.map(element => element.name == name ? contact : element))
-        );
+        ).catch(exception => setMessage({
+          type: "error",
+          content: `Can't update ${name}`
+        }));
       }
       else {
+        setMessage({
+          type: "error",
+          content: `${name} already exists`
+        })
         return undefined
       }
     }
 
+        communications.post(contact)
+                      .then(
+          response => {
+                  setContacts(contacts.concat(contact));
+                  setName(""); setNumber("");
+                  setMessage({
+                    type: "success",
+                    content: `${name} added successfully!`})
+          }
+        )
+                        .catch(exception => setMessage({
+            type: "error",
+            content: `Failed to add ${name}`}))
+        }
 
-
-    axios.post("http://localhost:3001/persons", contact)
-         .then(resource =>
-         {
-               setContacts(contacts.concat(contact));
-               setName(""); setNumber("");
-         })
-
-
-  }
   function nameOnChange(event) {
     setName(event.target.value);
   }
@@ -79,6 +124,7 @@ function App() {
 
 
 
+
   const filterForm = {
     name: "Find your Contact",
     fieldsNames: ["filter shown with"],
@@ -89,6 +135,7 @@ function App() {
   return(
     <div>
     <Header header={"Phonebook"}/>
+    <Notification message = {message}/>
     <Form handler={filterForm}/>
     <Phonebook book={filtered.length > 0 ? filtered : contacts}/>
     <Form handler={newContactForm} newData={newContact}/>
