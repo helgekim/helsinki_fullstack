@@ -3,11 +3,16 @@ import axios from 'axios';
 import Form from './components/form.jsx'
 import Header from "./components/header.jsx"
 import Phonebook from './components/phonebook.jsx'
+import communications from './services/communication.jsx';
 
 function App() {
   const [contacts, setContacts] = useState(
     []
   );
+
+  useEffect(() => {
+    communications.getAll().then(response => setContacts(response))
+    }, [])
 
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
@@ -17,15 +22,26 @@ function App() {
 
     const aSimilarContact = (contact) => contact.name == name
 
-    if (contacts.some(aSimilarContact)) {
-      alert(`${name} is already added to phonebook`)
-      return undefined;
-    }
 
     const contact = {
-      name: name,
-      number: number,
+          name: name,
+          number: number,
     }
+
+    if (contacts.some(aSimilarContact)) {
+      alert(`${name} is already added to phonebook`)
+      if (confirm("Would you like to replace this contact?")) {
+
+        let similarContact = contacts.find(aSimilarContact);
+        return communications.update(similarContact.id, contact).then(
+          response => setContacts(contacts.map(element => element.name == name ? contact : element))
+        );
+      }
+      else {
+        return undefined
+      }
+    }
+
 
 
     axios.post("http://localhost:3001/persons", contact)
@@ -44,12 +60,6 @@ function App() {
     setNumber(event.target.value)
   }
 
-  useEffect(() => {
-    axios.get("http://localhost:3001/persons")
-         .then(
-           response => setContacts(response.data)
-         )
-  }, [])
 
   const newContactForm = {
       name: "Add new contact",
