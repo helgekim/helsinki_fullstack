@@ -4,6 +4,8 @@ import Form from './components/form.jsx'
 import Header from "./components/header.jsx"
 import Phonebook from './components/phonebook.jsx'
 import communications from './services/communication.jsx';
+import './App.css'
+
 
 function App() {
   const [contacts, setContacts] = useState(
@@ -18,19 +20,19 @@ function App() {
     return null
   }
 
-  if (message.type = "success") {
-    return(
+  if (message.type == "success") {
+	return(
       <div className = "success">
-        {message.content}
+        <p> {message.content} </p>
       </div>
     )
   }
 
-  if (message.type = "error")
+  if (message.type == "error")
   {
     return (
     <div className='error'>
-      {message.content}
+      <p> {message.content} </p>
     </div>
   )
 }
@@ -41,6 +43,7 @@ function App() {
     communications.getAll().then(response => {
       setContacts(response)
     }).catch(exception => {
+	console.log("Here") 
       setMessage({
         type: "error",
         content: "Can't get data"})
