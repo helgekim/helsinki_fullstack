@@ -37,7 +37,6 @@ function App() {
 
 }
 
-
   useEffect(() => {
     communications.getAll().then(response => {
       setContacts(response)
@@ -105,6 +104,24 @@ function App() {
     setNumber(event.target.value)
   }
 
+  function deleteContact(id) {
+    return communications.remove(id)
+            .then(
+             response => {
+               setContacts(contacts.filter(contact => contact.id !== id))
+               setMessage({
+                 type: "success",
+                 content: "Removed the contact"})
+             })
+           .catch(
+             exception => {
+               setMessage({
+                 type: "error",
+                 content: `Unable to remove contact`})
+             })
+
+
+  }
 
   const newContactForm = {
       name: "Add new contact",
@@ -137,7 +154,7 @@ function App() {
     <Header header={"Phonebook"}/>
     <Notification message = {message}/>
     <Form handler={filterForm}/>
-    <Phonebook book={filtered.length > 0 ? filtered : contacts}/>
+    <Phonebook book={filtered.length > 0 ? filtered : contacts} removeController = {deleteContact}/>
     <Form handler={newContactForm} newData={newContact}/>
     </div>
   )

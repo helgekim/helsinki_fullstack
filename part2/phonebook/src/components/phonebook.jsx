@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Header from "./header.jsx"
 
-function Phonebook({book}) {
+function Phonebook({book, removeController}) {
 
   if (book.length == 0) {
     return(
@@ -13,7 +13,7 @@ function Phonebook({book}) {
   }
 
   const contactsToBeShown = book.map(contact => <div key={contact.id}>
-    <p>{contact.name}: {contact.number} <button> delete </button>
+    <p>{contact.name}: {contact.number} <button onClick={() => removeController(contact.id)}> delete </button>
 </p>
   </div>)
 
