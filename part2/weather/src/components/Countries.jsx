@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Country from "./Country.jsx"
 
 function Countries(
   {
@@ -6,21 +7,50 @@ function Countries(
   }
 ) {
 
+  const [country, setCountry] = useState("")
+
   if (!data || !searchValue) {
     return null
   }
 
-  let toShow = data.filter(
+  let filtered = data.filter(
     country => country.name.common.includes(searchValue)
-  ).map(
-    country => <p key={country.name.common}> {country.name.common} </p>
   )
 
-  if (toShow.length > 10) {
+  let toShow = filtered.map(
+    country => {
+      return(
+        <div key={country.name.common}>
+          <p> {country.name.common} </p> <button onClick={() => {
+            console.log(country.name.common)
+            setCountry(country.name.common)
+          }}> show this country </button>
+        </div>)}
+  )
+
+    const specificCountry = filtered.filter(eachCountry => eachCountry.name.common.includes(country));
+
+  if (specificCountry.length == 1) {
+    console.log(specificCountry)
+    return(
+      <Country country={specificCountry[0]}/>
+    )
+  }
+
+
+  if (filtered.length > 10) {
     return (
       <div>
         <p> too much to show. specify your request </p>
       </div>
+    )
+  }
+
+  if (filtered.length == 1) {
+    console.log("So we are here!")
+    console.log(filtered)
+    return(
+      <Country country={filtered[0]}/>
     )
   }
 
