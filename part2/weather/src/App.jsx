@@ -1,34 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
+/// Components
+import Header from "./components/Header.jsx"
+import Form from "./components/Form.jsx"
+import Countries from "./components/Countries.jsx"
+/// Services
+import data from './services/comms.jsx';
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [countries, setCountries] = useState([]);
+  const [searchValue, setSearch] = useState("");
+
+  useEffect(() => {
+      data.receive()
+          .then(
+            countriesData => setCountries(countriesData)
+          )
+          .catch(
+            exception => console.log("Unable to receive data")
+          )
+    }, [])
+
+  if (!countries) {
+    console.log("No data")
+    return (
+      <div>
+        <Header header = "Countries"/>
+        <div>
+          <p> No data rendered </p>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+        <Header header = "Countries"/>
+        <Form search={searchValue} setSearch={setSearch} description={"find countries"}/>
+        <Countries data={countries} searchValue = {searchValue}/>
+    </div>
   )
 }
 

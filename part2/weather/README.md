@@ -1,8 +1,13 @@
-# React + Vite
+# Basic Political Data App
+## Version: 1.0
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Developed in mind to make use of a REST API service kindly provided by the University of Helsinki to feature data about the:
 
-Currently, two official plugins are available:
+* name of the said
+* language spoken in the said country
+* population data
+* political system
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+and the weather of the capital at the moment.
+
+Helge Kim
