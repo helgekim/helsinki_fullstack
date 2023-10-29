@@ -28,7 +28,7 @@ function Countries(
         </div>)}
   )
 
-    const specificCountry = filtered.filter(eachCountry => eachCountry.name.common.includes(country));
+    const specificCountry = country ? filtered.filter(eachCountry => eachCountry.name.common.includes(country)) : []
 
   if (specificCountry.length == 1) {
     console.log(specificCountry)
