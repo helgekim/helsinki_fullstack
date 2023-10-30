@@ -12,6 +12,8 @@ function App() {
 
   const [countries, setCountries] = useState([]);
   const [searchValue, setSearch] = useState("");
+  const [country, setCountry] = useState("")
+
 
   useEffect(() => {
       data.receive()
@@ -22,6 +24,10 @@ function App() {
             exception => console.log("Unable to receive data")
           )
     }, [])
+
+  useEffect(() => {
+    setCountry("")
+  }, [searchValue])
 
   if (!countries) {
     console.log("No data")
@@ -39,7 +45,7 @@ function App() {
     <div>
         <Header header = "Countries"/>
         <Form search={searchValue} setSearch={setSearch} description={"find countries"}/>
-        <Countries data={countries} searchValue = {searchValue}/>
+        <Countries data={countries} searchValue = {searchValue} country={country} setCountry={setCountry}/>
     </div>
   )
 }

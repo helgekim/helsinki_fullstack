@@ -3,11 +3,9 @@ import Country from "./Country.jsx"
 
 function Countries(
   {
-    data, searchValue
+    data, searchValue, country, setCountry
   }
 ) {
-
-  const [country, setCountry] = useState("")
 
   if (!data || !searchValue) {
     return null
@@ -28,7 +26,9 @@ function Countries(
         </div>)}
   )
 
-    const specificCountry = country ? filtered.filter(eachCountry => eachCountry.name.common.includes(country)) : []
+  const specificCountry = country ? filtered.filter(eachCountry => eachCountry.name.common.includes(country)) : []
+
+
 
   if (specificCountry.length == 1) {
     console.log(specificCountry)
