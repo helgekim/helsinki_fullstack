@@ -12,26 +12,25 @@ function Countries(
   }
 
   let filtered = data.filter(
-    country => country.name.common.includes(searchValue)
+    country => country.name.official.includes(searchValue)
   )
 
   let toShow = filtered.map(
     country => {
       return(
-        <div key={country.name.common}>
-          <p> {country.name.common} </p> <button onClick={() => {
-            console.log(country.name.common)
-            setCountry(country.name.common)
+        <div key={country.name.official}>
+          <p> {country.name.official} </p> <button onClick={() => {
+            console.log(country.name.official)
+            setCountry(country.name.official)
           }}> show this country </button>
         </div>)}
   )
 
-  const specificCountry = country ? filtered.filter(eachCountry => eachCountry.name.common.includes(country)) : []
-
-
+  const specificCountry = country ? filtered.filter(eachCountry => eachCountry.name.official.includes(country)) : []
 
   if (specificCountry.length == 1) {
     console.log(specificCountry)
+
     return(
       <Country country={specificCountry[0]}/>
     )
