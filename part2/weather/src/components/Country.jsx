@@ -3,6 +3,15 @@ import axios from 'axios';
 import Header from "./Header.jsx"
 import Weather from "./Weather.jsx"
 
+/*
+
+According to the principle of Single Responsibility Module
+function named receiveWeather() must be split into two:
+
+1) data receiver in services/comms.jsx that would take two parameterss: lat, lng
+2) data setter in here that would be calling to that function whenever lat, lng change.
+
+*/
 function receiveWeather(country, setWeather) {
   const [lat, lng] = country.latlng;
   console.log(lat, lng)
