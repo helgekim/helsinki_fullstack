@@ -1,0 +1,18 @@
+{
+  "name": "backend",
+  "version": "0.0.1",
+  "description": "backend for my phonebook application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "echo \"we enter the dev  mode.\" && nodemon index.js"
+  },
+  "author": "Helge Kim",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
