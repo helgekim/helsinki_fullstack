@@ -45,6 +45,16 @@ app.get('/api/persons', (request, response) =>  {
  response.send(contacts)
 })
 
+app.get('/api/persons/:id', (request, response) => {
+	let id = request.params.id;
+	let contact = contacts.filter(contact => contact.id === Number(id));
+	if (contact.length == 1) {
+	 response.send(contact)
+	} else {
+	 response.status(404).end()
+	}
+})
+
 
 
 const PORT = 3001
