@@ -28,6 +28,19 @@ app.get('/', (request, response) => {
  response.send(`<div><h1>Welcome to phonebook's API!</h1><p>send all requests to <i>api/persons/....</i></p></div>`)
 })
 
+app.get('/info', (request, response) => {
+let contactLength = contacts.length;
+let date = new Date();
+response.send(`<div>
+	<div>
+	<p> This phonebook has ${contactLength} entries </p>
+	</div>
+	<div>
+	Today is ${date}
+	</div>
+</div`)
+})
+
 app.get('/api/persons', (request, response) =>  {
  response.send(contacts)
 })
