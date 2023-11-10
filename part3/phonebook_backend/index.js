@@ -1,7 +1,7 @@
 const express = require('express');
 const app  = express();
 
-const contacts = [
+let contacts = [
     { 
       "id": 1,
       "name": "Arto Hellas", 
@@ -55,7 +55,11 @@ app.get('/api/persons/:id', (request, response) => {
 	}
 })
 
-
+app.delete('/api/persons/:id', (request, response) => {
+	let id = request.params.id;
+        contacts = contacts.filter(contact => contact.id != Number(id));
+	response.status(204).end()
+})
 
 const PORT = 3001
 app.listen(PORT, () => {console.log(`Server runs on port ${PORT}`)})
