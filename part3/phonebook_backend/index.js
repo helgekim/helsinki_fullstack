@@ -24,6 +24,8 @@ let contacts = [
     }
 ]; 
 
+app.use(express.json())
+
 app.get('/', (request, response) => {
  response.send(`<div><h1>Welcome to phonebook's API!</h1><p>send all requests to <i>api/persons/....</i></p></div>`)
 })
@@ -43,6 +45,20 @@ response.send(`<div>
 
 app.get('/api/persons', (request, response) =>  {
  response.send(contacts)
+})
+
+app.post('/api/persons', (
+	request, response
+) => {
+	console.log(request.body)
+	let contact = request.body;
+	let newContact = {
+	"name": contact.name,
+	"phone": contact.number,
+	"id": Math.floor(Math.random() + (contacts.length - 1) * contacts.length)
+	}
+	contacts.push(newContact)
+	response.json(request.body)
 })
 
 app.get('/api/persons/:id', (request, response) => {
