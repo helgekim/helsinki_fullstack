@@ -49,19 +49,35 @@ app.get('/api/persons', (request, response) =>  {
 
 app.post('/api/persons', (
 	request, response
-) => {
-	console.log(request.body)
+) => 
+
+{
+	// console.log(request.body)
 	let contact = request.body;
+
+	if (!contact.name) {
+		// console.log("No name")
+		return response.status(403).end()
+	} else if (!contact.number) {
+		// console.log("No number")
+		return response.status(403).end()
+	}
+
+
 	let newContact = {
 	"name": contact.name,
 	"phone": contact.number,
 	"id": Math.floor(Math.random() + (contacts.length - 1) * contacts.length)
-	}
+	};
+
 	contacts.push(newContact)
 	response.json(request.body)
-})
+}
 
-app.get('/api/persons/:id', (request, response) => {
+)
+
+app.get('/api/persons/:id', (request, response) => {	
+
 	let id = request.params.id;
 	let contact = contacts.filter(contact => contact.id === Number(id));
 	if (contact.length == 1) {
