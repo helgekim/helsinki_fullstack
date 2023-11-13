@@ -1,5 +1,7 @@
 const express = require('express');
 const app  = express();
+const logger = require("morgan");
+
 
 let contacts = [
     { 
@@ -24,7 +26,8 @@ let contacts = [
     }
 ]; 
 
-app.use(express.json())
+app.use(express.json());
+app.use(logger('tiny'));
 
 app.get('/', (request, response) => {
  response.send(`<div><h1>Welcome to phonebook's API!</h1><p>send all requests to <i>api/persons/....</i></p></div>`)
