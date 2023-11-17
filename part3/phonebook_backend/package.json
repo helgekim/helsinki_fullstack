@@ -5,12 +5,15 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "build": "cd ../../../part2/phonebook; npm run build; cp dist -r ../../part3/phonebook_backend; cd ../../part3/phonebook_backend; cp ../phonebook_backend/. -r ../../../Projects/side_projects/mememini/; cd ../../../Projects/side_projects/mememini; git commit -m 'new uibuild'; git push; ",
     "dev": "echo \"we enter the dev  mode.\" && nodemon index.js"
   },
   "author": "Helge Kim",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2",
+    "mongoose": "^6.12.2",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
