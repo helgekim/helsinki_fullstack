@@ -85,7 +85,7 @@ function App() {
       }
     }
 
-        communications.post(contact)
+        communications.CreateNewContact(contact)
                       .then(
           response => {
                   setContacts(contacts.concat(contact));

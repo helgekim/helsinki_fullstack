@@ -10,7 +10,7 @@ function getAll() {
 
 }
 
-function post(contact) {
+function CreateNewContact(contact) {
   const request = axios.post(url, contact)
   return request.then(response => response.data);
 
@@ -27,5 +27,5 @@ function remove(id, contact) {
 }
 
 export default {
-  getAll, update, remove
+  getAll, update, remove, CreateNewContact
 };
