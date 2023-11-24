@@ -1,12 +1,12 @@
-console.log("Amount of arguments:", process.argv.length);
-console.log(process.argv)
+//console.log("Amount of arguments:", process.argv.length);
+//console.log(process.argv)
 
 if (process.argv.length < 3) {
    console.log("Provide your password");
-//   process.exit();
+    process.exit();
 }
 
-console.log("Initialising the app.")
+// console.log("Initialising the app.")
 const mongoose = require('mongoose');
 
 const password = process.argv[2];
