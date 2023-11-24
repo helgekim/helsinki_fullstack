@@ -24,8 +24,7 @@ const contactSchema = new mongoose.Schema(
 const Contact = mongoose.model("Contact", contactSchema);
 
 if (process.argv.length == 3) {
-  Contact.find({}).then(response => response.forEach(contact => console.log(`${contact.name}: ${contact.number}`)))
-  mongoose.connection.close();
+  Contact.find({}).then(response => response.forEach(contact => console.log(`${contact.name}: ${contact.number}`))).then(response => mongoose.connection.close())
 }
 
 if (process.argv.length ==  5) {
@@ -33,5 +32,5 @@ if (process.argv.length ==  5) {
 const contactName = process.argv[3];
 const contactNumber = process.argv[4];
 const contact = new Contact({name: contactName, number: contactNumber})
-contact.save().then(response => {console.log("Number saved")})
+contact.save().then(response => {console.log("Number saved"); mongoose.connection.close()})
 }
