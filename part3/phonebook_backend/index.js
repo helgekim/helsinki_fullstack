@@ -1,7 +1,12 @@
 const express = require('express');
 const app  = express();
 
+require('dotenv').config()
+
+const Contact = require('./modules/Note');
+
 const cors = require('cors');
+
 app.use(cors());
 
 app.use(express.static('dist'));
@@ -42,6 +47,7 @@ app.get('/', (request, response) => {
  response.send(`<div><h1>Welcome to phonebook's API!</h1><p>send all requests to <i>api/persons/....</i></p></div>`)
 })
 
+
 app.get('/info', (request, response) => {
 let contactLength = contacts.length;
 let date = new Date();
@@ -56,7 +62,10 @@ response.send(`<div>
 })
 
 app.get('/api/persons', (request, response) =>  {
+ Contact.find({}).then(resources => response.send(resources)).catch(error => {
+ console.log("Couldn't find no damn data", error);
  response.send(contacts)
+})
 })
 
 app.post('/api/persons', (
@@ -64,6 +73,7 @@ app.post('/api/persons', (
 ) => 
 
 {
+	// console.log("Hi")
 	// console.log(request.body)
 	let contact = request.body;
 
@@ -75,34 +85,37 @@ app.post('/api/persons', (
 		return response.status(403).end()
 	}
 
+	
 
-	let newContact = {
+	let newContact = new Contact({
 	"name": contact.name,
-	"phone": contact.number,
-	"id": Math.floor(Math.random() + (contacts.length - 1) * contacts.length)
-	};
+	"number": contact.number});
 
-	contacts.push(newContact)
-	response.json(request.body)
+	// contacts.push(newContact)
+	newContact.save().then(contact => response.json(request.body)).catch(
+	error => console.log(error)
+	)
 }
 
 )
 
 app.get('/api/persons/:id', (request, response) => {	
 
-	let id = request.params.id;
+	let id = request.params.id; /*
 	let contact = contacts.filter(contact => contact.id === Number(id));
 	if (contact.length == 1) {
 	 response.send(contact)
 	} else {
 	 response.status(404).end()
-	}
+	}*/
+
+ 	Contact.find({_id: id}).then(resource => response.send(resource)).catch(error => console.log("Failed to find a resource"))
 })
 
 app.delete('/api/persons/:id', (request, response) => {
 	let id = request.params.id;
-        contacts = contacts.filter(contact => contact.id != Number(id));
-	response.status(204).end()
+        // contacts = contacts.filter(contact => contact.id != Number(id));
+	Contact.deleteOne({_id: id}).then(resource => response.status(204).end()).catch(error => console.log("Failed to delete a contact", error))
 })
 
 const PORT = process.env.PORT ||  3001
