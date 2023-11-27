@@ -68,6 +68,13 @@ app.get('/api/persons', (request, response) =>  {
 })
 })
 
+app.get('/api/persons/:id', (request, response) => {
+ Contact.find({_id: request.params.id}).then(resource => resource ? response.json(resource) : response.status(404).end()).catch(error => {
+	console.log(error);
+	response.status(500).end();
+	})
+})
+
 app.post('/api/persons', (
 	request, response
 ) => 
@@ -99,18 +106,30 @@ app.post('/api/persons', (
 
 )
 
+app.put('/api/persons/:id', (request, response) => {
+
+	console.log(request.params.id)
+
+	Contact.findByIdAndUpdate(request.params.id, request.body).then(contact => contact ? response.json(contact) : response.status(300).end()).catch(error => {
+	console.log(error); response.status(500).end()
+	})
+
+	response.status(505).end()
+})
+
+/*
 app.get('/api/persons/:id', (request, response) => {	
 
-	let id = request.params.id; /*
+	let id = request.params.id; 
 	let contact = contacts.filter(contact => contact.id === Number(id));
 	if (contact.length == 1) {
 	 response.send(contact)
 	} else {
 	 response.status(404).end()
-	}*/
+	}
 
  	Contact.find({_id: id}).then(resource => response.send(resource)).catch(error => console.log("Failed to find a resource"))
-})
+})*/
 
 app.delete('/api/persons/:id', (request, response) => {
 	let id = request.params.id;
