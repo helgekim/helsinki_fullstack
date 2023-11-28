@@ -114,7 +114,6 @@ app.put('/api/persons/:id', (request, response) => {
 	console.log(error); response.status(500).end()
 	})
 
-	response.status(505).end()
 })
 
 /*
