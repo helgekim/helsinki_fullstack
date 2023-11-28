@@ -110,7 +110,7 @@ app.put('/api/persons/:id', (request, response) => {
 
 	console.log(request.params.id)
 
-	Contact.findByIdAndUpdate(request.params.id, request.body).then(contact => contact ? response.json(contact) : response.status(300).end()).catch(error => {
+	Contact.findByIdAndUpdate(request.params.id, request.body, {new: true, runValidators: true, context:'query'}).then(contact => contact ? response.json(contact) : response.status(300).end()).catch(error => {
 	console.log(error); response.status(500).end()
 	})
 
