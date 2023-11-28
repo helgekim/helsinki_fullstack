@@ -67,13 +67,15 @@ function App() {
 
     if (contacts.some(aSimilarContact)) {
       if (confirm("Would you like to replace this contact?")) {
-
+	
         let similarContact = contacts.find(aSimilarContact);
-        return communications.update(similarContact.id, contact).then(
+	return communications.update(similarContact.id, contact).then(
           response => setContacts(contacts.map(element => element.name == name ? contact : element))
-        ).catch(exception => setMessage({
+        ).catch(exception => 
+
+	setMessage({
           type: "error",
-          content: `Can't update ${name}`
+          content: `Can't update ${name}. ${exception.response.data.error}`
         }));
       }
       else {
@@ -97,7 +99,7 @@ function App() {
         )
                         .catch(exception => setMessage({
             type: "error",
-            content: `Failed to add ${name}`}))
+            content: `Failed to add ${name}. ${exception}`}))
         }
 
   function nameOnChange(event) {
