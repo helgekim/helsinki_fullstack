@@ -72,11 +72,13 @@ function App() {
 	return communications.update(similarContact.id, contact).then(
           response => setContacts(contacts.map(element => element.name == name ? contact : element))
         ).catch(exception => 
-
+	{
+	//console.log(exception)
 	setMessage({
           type: "error",
-          content: `Can't update ${name}. ${exception.response.data.error}`
-        }));
+          content: `Can't update ${name}. ${exception.response.data.message}`
+        })
+	});
       }
       else {
         setMessage({
@@ -97,11 +99,15 @@ function App() {
                     content: `${name} added successfully!`})
           }
         )
-                        .catch(exception => setMessage({
-            type: "error",
-            content: `Failed to add ${name}. ${exception}`}))
-        }
+                        .catch(exception => {
 
+	  setMessage({
+            type: "error",
+            content: `Failed to add ${name}. ${exception.response.data.message}`})
+	 
+	// console.log(exception)
+})
+        }
   function nameOnChange(event) {
     setName(event.target.value);
   }
