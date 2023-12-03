@@ -177,3 +177,38 @@ expect(list_helper.mostBlogs(onlyBlog)).toEqual(result) })
 expect(list_helper.mostBlogs()).toEqual(null)
 })
 })
+
+
+describe("MostLikes can...", () => {
+
+test("return the most liked author", () => {
+
+const expected = {
+  author: "Edsger W. Dijkstra",
+  likes: 17
+}
+
+expect(list_helper.mostLikes(blogs)).toEqual(expected)
+
+
+
+})
+
+test("return the only author", () => {
+
+
+
+expect(list_helper.mostLikes([{author: "hjk", title: "my fight",likes: 124}])).toEqual({author: "hjk", likes: 124})
+
+
+})
+
+test("return null", () => {
+
+expect(list_helper.mostLikes()).toEqual(null);
+
+})
+
+
+
+})

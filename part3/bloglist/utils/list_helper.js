@@ -39,6 +39,49 @@ if (blogs) {
 return null
 }
 
+const mostLikes = blogs => {
+
+if (blogs) {
+
+const authors = {};
+	if (blogs.length == 1) {
+	return {
+	author: blogs[0].author,
+	likes: blogs[0].likes
+	}
+	} 
+
+
+	else if (blogs.length >= 1) {
+	
+	blogs.forEach(blog => {
+	
+	if (blog.hasOwnProperty("author")) {
+	
+	 if (authors[blog.author]) {
+		 authors[blog.author] += blog.likes
+	} else {
+	   	authors[blog.author] = blog.likes
+	}}})
+	
+	
+	}
+
+const authorsArray = Object.entries(authors).sort((a, b) => a[1] - b[1])
+	
+return {
+
+author: authorsArray[authorsArray.length - 1][0],
+likes: authorsArray[authorsArray.length - 1][1]
+
+}
+}
+
+return null
+
+}
+
+
 module.exports = {
-  dummy, totalLikes, favouriteBlog, mostBlogs
+  dummy, totalLikes, favouriteBlog, mostBlogs, mostLikes
 }
