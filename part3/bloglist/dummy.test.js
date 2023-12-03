@@ -152,3 +152,28 @@ describe("FavouriteBlog: can...", () => {
 
 
 })
+
+describe("MostBlogs can...", () => {
+	test("return the most prolific author", () => {expect(list_helper.mostBlogs(blogs)).toEqual({author: "Robert C. Martin",blogs: 3})});
+	test("return the only blog", () => {
+
+const onlyBlog = [
+{
+title: "kem er jeg",
+author: "hjk",
+likes: 1232
+}
+]
+
+const result = {
+author: "hjk",
+blogs: 1
+}
+
+expect(list_helper.mostBlogs(onlyBlog)).toEqual(result) })
+
+	test("return null", () => {
+
+expect(list_helper.mostBlogs()).toEqual(null)
+})
+})
