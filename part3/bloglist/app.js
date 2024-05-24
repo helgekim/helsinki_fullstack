@@ -13,6 +13,9 @@ const routes = require("./controllers/Blogs.js");
 server.use('/api/blogs', routes);
 info("Router initialised")
 
+const userRoutes = require("./controllers/Users.js");
+server.use('/api/users', userRoutes)
+info("User router initialized")
 
 const cors = require("cors");
 server.use(cors); // CORS must go after routes.
