@@ -16,10 +16,14 @@ Blogs.get('/', async (request, response) => {
 	//response.status(300).json({"message":"no data yet"}).end()
 
 
-	const blogs = await Blog.find({}).populate('author')
-	// remove all the unnecessary fields!
-	
+	const blogs = await Blog.find({}).populate('author', '-__v -passwordHash')
+/*
+	const newblogs = blogs.map(blog => {return {author:
+	console.log(blogs)
+	console.log(newblogs)
 
+	console.log("Blog request incoming")
+*/
 	response.json(blogs).end()
 })
 
