@@ -19,7 +19,11 @@ username,
 passwordHash
 })
 
+try {
 await user.save();
+} catch {
+response.status(402).json({"error": "can't create a user"})
+}
 
 response.json(user).status(204)
 
@@ -32,11 +36,18 @@ Users.post('/log', async (request, response) => {
 
 const {username, password} = request.body;
 
-const user = await User.findOne({username});
+try {var user = await User.findOne({username})
+
+} 
+catch {
+return response.status(404).json({"error": "no user found"})
+}
+
+
 const passwordCorrect = user === null ? false : await bcrypt.compare(password, user.passwordHash);
 
 if (!(user && passwordCorrect)) {
- return response.status(404).json({"error": "no user found"})
+ return response.status(404).json({"error": "no user found or wrong password"})
 } 
 
 const userForToken = {
